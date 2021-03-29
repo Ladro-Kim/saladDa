@@ -1,2 +1,0 @@
-# saladDa
-Salad sales application
