@@ -1,0 +1,1 @@
+String dummy_image = "assets/images/dummy_image.png";
