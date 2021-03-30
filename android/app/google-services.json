@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "150974514675",
-    "project_id": "salad-da",
-    "storage_bucket": "salad-da.appspot.com"
+    "project_number": "152155073644",
+    "project_id": "saladda-cdbde",
+    "storage_bucket": "saladda-cdbde.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:150974514675:android:413e2a38eabff114383e86",
+        "mobilesdk_app_id": "1:152155073644:android:ec3a754dab6c0875747c49",
         "android_client_info": {
           "package_name": "com.blueobel.salad_da"
         }
       },
       "oauth_client": [
         {
-          "client_id": "150974514675-lsv6fh0vgn871lf35idaf5h8786ljg02.apps.googleusercontent.com",
+          "client_id": "152155073644-rjo1s3pa1a8g2l29s82dh710fok2d662.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA67aNXpiMbEBPc-ELlKkJ7oRA2GP1iVC0"
+          "current_key": "AIzaSyCI_8wPji3ps7g2QOKxTJNILpvYDSDXXzs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "150974514675-lsv6fh0vgn871lf35idaf5h8786ljg02.apps.googleusercontent.com",
+              "client_id": "152155073644-rjo1s3pa1a8g2l29s82dh710fok2d662.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

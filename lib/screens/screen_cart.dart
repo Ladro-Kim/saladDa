@@ -16,7 +16,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     CustomUserProvider customUserProvider =
-        Provider.of<CustomUserProvider>(context);
+    Provider.of<CustomUserProvider>(context);
     FirebaseProvider firebaseProvider = Provider.of<FirebaseProvider>(context);
     customUserProvider.customUser.favorites.map((e) async {
       favoriteItems.add(await firebaseProvider.getItemByName(e));
@@ -60,13 +60,13 @@ class _CartScreenState extends State<CartScreen> {
     return favoriteItems[index].imageUri == null
         ? Image.asset("assets/images/dummy_image.png")
         : Image.network(
-            favoriteItems[index].imageUri,
-            filterQuality: FilterQuality.low,
-            loadingBuilder:
-                (BuildContext context, Widget widget, ImageChunkEvent event) {
-              if (event == null) return widget;
-              return CircularProgressIndicator();
-            },
-          );
+      favoriteItems[index].imageUri,
+      filterQuality: FilterQuality.low,
+      loadingBuilder:
+          (BuildContext context, Widget widget, ImageChunkEvent event) {
+        if (event == null) return widget;
+        return CircularProgressIndicator();
+      },
+    );
   }
 }

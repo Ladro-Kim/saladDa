@@ -1,11 +1,17 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salad_da/models/custom_user.dart';
 import 'package:salad_da/models/item.dart';
 import 'package:salad_da/provs/provider_background_color.dart';
+import 'package:salad_da/provs/provider_bottom_index.dart';
+import 'package:salad_da/provs/provider_cart.dart';
+import 'package:salad_da/provs/provider_custom_user.dart';
 import 'package:salad_da/provs/provider_firebase.dart';
 import 'package:salad_da/screens/screen_item_detail.dart';
 import 'package:salad_da/utils/images.dart';
@@ -47,6 +53,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
+  readyToStart(BuildContext context) async {
+    CustomUserProvider customUserProvider =
+        Provider.of<CustomUserProvider>(context, listen: false);
+    FirebaseProvider firebaseProvider =
+        Provider.of<FirebaseProvider>(context, listen: false);
+    CartProvider cartProvider =
+        Provider.of<CartProvider>(context, listen: false);
+    User user = FirebaseAuth.instance.currentUser;
+
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(user.email)
+        .get()
+        .then((value) =>
+            customUserProvider.customUser = CustomUser.fromSnapshot(value));
+
+    if (customUserProvider.customUser == null) {
+      customUserProvider.customUser = CustomUser(
+        name: user.displayName == null ? "null" : user.displayName,
+        email: user.email,
+        contact: user.phoneNumber == null ? "null" : user.phoneNumber,
+        address: "null",
+        favorites: <String>[],
+      );
+      customUserProvider.setCustomUser();
+    }
+
+    customUserProvider.getCustomUser();
+    firebaseProvider.getItems();
+    cartProvider.getFavoriteItems(customUserProvider, firebaseProvider);
+  }
+
   @override
   void initState() {
     animationController = AnimationController(
@@ -57,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     transAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(110, 0))
         .animate(animationController);
     animationController.forward();
-
     super.initState();
   }
 
@@ -76,6 +113,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     backgroundColor = Provider.of<BackgroundColorProvider>(context).color;
+    readyToStart(context);
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: buildAppBar(),
@@ -112,6 +151,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         color: Colors.pinkAccent,
                       ),
                       onPressed: () async {
+                        print(Provider.of<CartProvider>(context, listen: false)
+                            .favoriteItems
+                            .length);
                         await showColorPickerModal(provider);
                       },
                     ),
@@ -125,14 +167,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         await showGridCountPickerModal(provider);
                       },
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.shopping_cart_rounded,
-                        size: 24,
-                        color: Colors.pinkAccent,
+                    Stack(children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.shopping_cart_rounded,
+                          size: 24,
+                          color: Colors.pinkAccent,
+                        ),
+                        onPressed: () {
+                          Provider.of<BottomIndexProvider>(context,
+                                  listen: false)
+                              .changeIndex(2);
+                        },
                       ),
-                      onPressed: () {},
-                    ),
+                      Positioned(
+                        child: CircleAvatar(
+                          child: Provider.of<CartProvider>(context,
+                                      listen: false) ==
+                                  null
+                              ? Text("00")
+                              : Text(
+                                  "${Provider.of<CartProvider>(context, listen: false).favoriteItems.length}",
+                                  style: TextStyle(fontSize: 11),
+                                  textAlign: TextAlign.center),
+                          radius: 10,
+                          backgroundColor: Color.fromARGB(100, 13, 168, 99),
+                        ),
+                        bottom: 0,
+                        right: 0,
+                      )
+                    ]),
                   ],
                 );
               }),
@@ -224,12 +288,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           fit: BoxFit.fitWidth,
                                         )
                                       :
-                                  // CachedNetworkImage(
-                                  //         placeholder: (context, url) =>
-                                  //             CircularProgressIndicator(),
-                                  //         imageUrl: items[index].imageUri,
-                                  //       ),
-                                  Image.network(
+                                      // CachedNetworkImage(
+                                      //         placeholder: (context, url) =>
+                                      //             CircularProgressIndicator(),
+                                      //         imageUrl: items[index].imageUri,
+                                      //       ),
+                                      Image.network(
                                           items[index].imageUri,
                                           filterQuality: FilterQuality.low,
                                           loadingBuilder: (BuildContext context,
@@ -239,8 +303,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               return child;
                                             }
                                             return Center(
-                                              child:
-                                                  SizedBox(width: 50, height: 50, child: CircularProgressIndicator()),
+                                              child: SizedBox(
+                                                  width: 50,
+                                                  height: 50,
+                                                  child:
+                                                      CircularProgressIndicator()),
                                             );
                                           },
                                         ),
@@ -250,7 +317,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ],
                         ),
                         SizedBox(height: 8),
-                        Text("${items[index].name}", overflow: TextOverflow.ellipsis,),
+                        Text(
+                          "${items[index].name}",
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ],
                     ),
                     elevation: 3,

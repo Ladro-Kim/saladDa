@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>150974514675-lv1qm9v99mno4gm3pgh9ek96hg88rm5j.apps.googleusercontent.com</string>
+	<string>152155073644-1gcmf3rc4fe0u7qr5ij8a3rrqa6umcb0.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.150974514675-lv1qm9v99mno4gm3pgh9ek96hg88rm5j</string>
+	<string>com.googleusercontent.apps.152155073644-1gcmf3rc4fe0u7qr5ij8a3rrqa6umcb0</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAxJuECaYVG5xVIsVwadvaepVhDmZw_tqk</string>
+	<string>AIzaSyAhQLxnEzKTbt846yctnB6Bz5cvzjitAjk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>150974514675</string>
+	<string>152155073644</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.blueobel.saladDa</string>
 	<key>PROJECT_ID</key>
-	<string>salad-da</string>
+	<string>saladda-cdbde</string>
 	<key>STORAGE_BUCKET</key>
-	<string>salad-da.appspot.com</string>
+	<string>saladda-cdbde.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:150974514675:ios:b35d8cdefb3bb035383e86</string>
+	<string>1:152155073644:ios:f29824679d27a8bb747c49</string>
 </dict>
 </plist>

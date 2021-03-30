@@ -4,7 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:salad_da/models/item.dart';
 import 'package:salad_da/provs/provider_bottom_index.dart';
+import 'package:salad_da/provs/provider_cart.dart';
 import 'package:salad_da/provs/provider_custom_user.dart';
+import 'package:salad_da/provs/provider_firebase.dart';
 import 'package:salad_da/widgets/widget_item_detail_sliver_header.dart';
 
 class ItemDetailScreen extends StatefulWidget {
@@ -127,7 +129,8 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
   }
 
   Widget buildButtons() {
-    CustomUserProvider customUserProvider = Provider.of<CustomUserProvider>(context);
+    CustomUserProvider customUserProvider = Provider.of<CustomUserProvider>(context, listen: false);
+    FirebaseProvider firebaseProvider = Provider.of<FirebaseProvider>(context, listen: false);
     return Consumer<BottomIndexProvider>(builder: (context, provider, child) {
           return Row(
             children: [
@@ -147,6 +150,8 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
                     if (!customUserProvider.customUser.favorites.contains(widget.item.name)) {
                       customUserProvider.customUser.favorites.add(widget.item.name);
                       customUserProvider.setCustomUser();
+                      customUserProvider.getCustomUser();
+                      Provider.of<CartProvider>(context, listen: false).getFavoriteItems(customUserProvider, firebaseProvider);
                       // FirebaseFirestore.instance
                       // .doc("Item")
                       // .collection("Items")
@@ -155,7 +160,6 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
                     } else {
                       Get.snackbar("Same item.", "Same item is already in your cart");
                     }
-
                   },
                 ),
               ),
@@ -172,7 +176,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
                     ),
                   ),
                   onTap: () {
-                    provider.ChangeIndex(2);
+                    provider.changeIndex(2);
                     Navigator.pop(context);
                   },
                 ),

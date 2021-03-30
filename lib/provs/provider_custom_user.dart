@@ -10,20 +10,23 @@ class CustomUserProvider extends ChangeNotifier {
   setCustomUser() async {
     try {
       await FirebaseFirestore.instance.collection("Users").doc(user.email).set(customUser.toJson());
+      notifyListeners();
     } catch(e) {
       print(e);
     }
   }
 
-  getCustomUser() async {
+  Future<void> getCustomUser() async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection("Users").doc(user.email).get();
-      print(CustomUser.fromJson(documentSnapshot.data()));
       customUser = CustomUser.fromJson(documentSnapshot.data());
 
       if (customUser.favorites == null) {
         customUser.favorites = <String>[];
       }
+
+      notifyListeners();
+
     } catch(e) {
       print(e);
     }

@@ -10,6 +10,7 @@ import 'package:salad_da/pages/page_sign_in.dart';
 import 'package:salad_da/pages/page_sign_up.dart';
 import 'package:salad_da/provs/provider_background_color.dart';
 import 'package:salad_da/provs/provider_bottom_index.dart';
+import 'package:salad_da/provs/provider_cart.dart';
 import 'package:salad_da/provs/provider_firebase.dart';
 import 'package:salad_da/provs/provider_custom_user.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BackgroundColorProvider()),
         ChangeNotifierProvider(create: (_) => FirebaseProvider()),
         ChangeNotifierProvider(create: (_) => CustomUserProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider())
       ],
       builder: (context, child) {
         return GetMaterialApp(

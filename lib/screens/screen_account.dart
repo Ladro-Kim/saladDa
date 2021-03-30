@@ -24,38 +24,33 @@ class _AccountScreenState extends State<AccountScreen> {
           Column(
             children: [
               TextButton(
-                child: Text("Add Item(Only for manager)", style: TextStyle(color: Colors.blueAccent)),
+                child: Text("Add Item(Only for manager)",
+                    style: TextStyle(color: Colors.blueAccent)),
                 onPressed: () {
                   Get.toNamed("/AddItemPage");
                 },
               ),
               TextButton(
-                child: Text("Purchase history", style: TextStyle(color: Colors.blueAccent)),
+                child: Text("Purchase history",
+                    style: TextStyle(color: Colors.blueAccent)),
                 onPressed: () {},
               ),
               TextButton(
-                child: Text("Contact", style: TextStyle(color: Colors.blueAccent)),
+                child:
+                    Text("Contact", style: TextStyle(color: Colors.blueAccent)),
                 onPressed: () async {
-                  String url = "010-6753-3201";
+                  String url = "tel:01067533201";
                   if (await canLaunch(url)) {
-                    setState(() async {
-                      await launch("tel: $url");
-                    });
+                    await launch(url);
                   }
                 },
               ),
               TextButton(
-                child: Text("Log out", style: TextStyle(color: Colors.blueAccent)),
+                child:
+                    Text("Log out", style: TextStyle(color: Colors.blueAccent)),
                 onPressed: () {
                   // Navigator.pop(context);
                   signOutWithGoogle();
-                },
-              ),
-              TextButton(
-                child: Text("GetTestButton", style: TextStyle(color: Colors.blueAccent)),
-                onPressed: () {
-                  // Navigator.pop(context);
-                  Provider.of<FirebaseProvider>(context, listen: false).getItems();
                 },
               ),
             ],
@@ -71,56 +66,55 @@ class _AccountScreenState extends State<AccountScreen> {
       child: Card(
         color: Colors.white,
         child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: MediaQuery.of(context).size.width * 0.2,
-                    backgroundImage:
-                    currentUser.photoURL != null
-                        ? NetworkImage(currentUser.photoURL)
-                        : AssetImage("assets/images/dummy_image.png"),
-                  ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: MediaQuery.of(context).size.width * 0.2,
+                  backgroundImage: currentUser.photoURL != null
+                      ? NetworkImage(currentUser.photoURL)
+                      : AssetImage("assets/images/dummy_image.png"),
                 ),
               ),
-              SizedBox(width: 10),
-              Expanded(
-                flex: 2,
-                child: Stack(
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(height: 70),
-                        currentUser.displayName != null
-                            ? Text("${currentUser.displayName}")
-                            : Text("Edit user name"),
-                        currentUser.email != null
-                            ? Text("${currentUser.email}")
-                            : Text("Edit user email"),
-                        Text("address"),
-                      ],
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              flex: 2,
+              child: Stack(
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(height: 70),
+                      currentUser.displayName != null
+                          ? Text("${currentUser.displayName}")
+                          : Text("Edit user name"),
+                      currentUser.email != null
+                          ? Text("${currentUser.email}")
+                          : Text("Edit user email"),
+                      Text("address"),
+                    ],
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
+                        Get.toNamed("/EditAccountPage");
+                      },
                     ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        icon: Icon(Icons.settings),
-                        onPressed: () {
-                          Get.toNamed("/EditAccountPage");
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

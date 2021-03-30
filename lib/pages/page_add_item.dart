@@ -105,6 +105,8 @@ class _AddItemPageState extends State<AddItemPage>
                         decoration: InputDecoration(
                           labelText: "Information",
                         ),
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
                         validator: (value) {
                           return null;
                         },

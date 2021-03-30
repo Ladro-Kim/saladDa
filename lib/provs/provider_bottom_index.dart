@@ -26,7 +26,7 @@ class BottomIndexProvider extends ChangeNotifier {
   Widget get page => pages[currentIndex];
 
 
-  void ChangeIndex(int index) {
+  void changeIndex(int index) {
     currentIndex = index;
     notifyListeners();
   }

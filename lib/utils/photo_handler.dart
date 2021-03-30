@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:salad_da/widgets/widget_select_photo.dart';
 
 Future<File> getPhotoFromGallery() async {
-  var pickedImage = await ImagePicker().getImage(source: ImageSource.gallery);
+  var pickedImage = await ImagePicker().getImage(source: ImageSource.gallery, imageQuality: 10);
   if (pickedImage != null) {
     var croppedImage = await ImageCropper.cropImage(
       sourcePath: pickedImage.path,

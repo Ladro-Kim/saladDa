@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:salad_da/models/item.dart';
 
+
 class FirebaseProvider extends ChangeNotifier {
 
   User user = FirebaseAuth.instance.currentUser;
@@ -25,17 +26,14 @@ class FirebaseProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<Item>> getItems() async {
+  getItems() async {
     QuerySnapshot queryItems = await FirebaseFirestore.instance.collection(
         "Items").get();
     List<QueryDocumentSnapshot> queryDocument = queryItems.docs;
-    List<Item> tempItem = queryDocument.map((index) {
-      return Item.fromSnapshot(index);
-    }).toList();
+    List<Item> tempItem = queryDocument.map((index) => Item.fromSnapshot(index)).toList();
     tempItem.sort((a, b) => b.uploadDate.compareTo(a.uploadDate));
     items = tempItem;
     notifyListeners();
-    return items;
   }
 
   Future<Item> getItemByName(String name) async {
@@ -54,7 +52,6 @@ class FirebaseProvider extends ChangeNotifier {
     }
     return url;
   }
-
 
 }
 

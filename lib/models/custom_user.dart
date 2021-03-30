@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CustomUser {
@@ -18,6 +19,14 @@ class CustomUser {
     this.favorites = json["favorites"];
   }
 
+  CustomUser.fromSnapshot(DocumentSnapshot snapshot) {
+    this.name = snapshot.get("name");
+    this.email = snapshot.get("email");
+    this.address = snapshot.get("address");
+    this.contact = snapshot.get("contact");
+    this.favorites = snapshot.get("favorites");
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data["name"] = this.name;
@@ -27,5 +36,4 @@ class CustomUser {
     data["favorites"] = this.favorites;
     return data;
   }
-
 }
